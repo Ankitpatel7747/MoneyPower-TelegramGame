@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>MoneyPower</title>
+  <style>
+    :root {
+      --bg: #070d1a;
+      --panel: rgba(17, 26, 42, 0.96);
+      --panel-2: rgba(11, 17, 29, 0.96);
+      --line: rgba(255,255,255,0.08);
+      --text: #edf2ff;
+      --muted: #9aa7bd;
+      --brand: #7b61ff;
+      --brand-2: #38d6ff;
+      --mint: #2ad7a6;
+      --yellow: #ffce5c;
+      --red: #ff677d;
+      --shadow: 0 18px 40px rgba(0,0,0,0.38);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      background:
+        radial-gradient(circle at top, rgba(123, 97, 255, 0.18), transparent 30%),
+        linear-gradient(180deg, #050b17 0%, #0a1220 100%);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    .app-shell {
+      width: min(100%, 460px);
+      min-height: 100vh;
+      background: rgba(8, 13, 23, 0.92);
+      border-left: 1px solid rgba(255,255,255,0.04);
+      border-right: 1px solid rgba(255,255,255,0.04);
+      box-shadow: var(--shadow);
+      position: relative;
+      padding-bottom: 86px;
+    }
+
+    #splash {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, rgba(123,97,255,0.20), rgba(5,11,22,1) 54%);
+      z-index: 30;
+      transition: opacity 0.45s ease, visibility 0.45s ease;
+    }
+
+    #splash.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .logo-frame {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7b61ff, #38d6ff, #7b61ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 0 0 7px rgba(123,97,255,0.18),
+        0 25px 60px rgba(82, 118, 255, 0.6);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    .logo-frame img {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: rgba(255,255,255,0.06);
+      border: 3px solid rgba(255,255,255,0.25);
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); filter: saturate(1); }
+      50% { transform: scale(1.06); filter: saturate(1.3); }
+    }
+
+    .hidden { display: none !important; }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 18px 8px;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-mark .mini-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7b61ff, #38d6ff);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 18px rgba(123, 97, 255, 0.42);
+    }
+
+    .brand-mark .mini-logo img {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .avatar-wrap {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(123,97,255,0.18), rgba(56,214,255,0.12));
+      border: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.22);
+    }
+
+    .avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .wallet-card {
+      margin: 12px 18px 14px;
+      background: linear-gradient(180deg, rgba(18, 29, 48, 0.95), rgba(11, 18, 31, 0.95));
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 12px 20px rgba(0,0,0,0.14);
+    }
+
+    .wallet-left {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .wallet-label {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .wallet-status {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .wallet-button {
+      border: 0;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #7b61ff, #5aa7ff);
+      color: white;
+      font-weight: 800;
+      padding: 12px 16px;
+      letter-spacing: 0.01em;
+      min-width: 145px;
+      box-shadow: 0 10px 26px rgba(82, 118, 255, 0.35);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding: 0 18px;
+      margin-top: 2px;
+    }
+
+    .stat-card {
+      background: linear-gradient(180deg, rgba(17, 25, 39, 0.95), rgba(10, 17, 28, 0.95));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 12px 14px;
+    }
+
+    .stat-card .label {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .stat-card .value {
+      font-size: 22px;
+      font-weight: 800;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .stat-card .value small {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .clicker-wrap {
+      padding: 18px;
+      margin-top: 6px;
+    }
+
+    .tap-panel {
+      background: linear-gradient(180deg, rgba(14, 24, 38, 0.98), rgba(9, 17, 27, 0.98));
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 18px 16px;
+      box-shadow: 0 20px 28px rgba(0,0,0,0.18);
+    }
+
+    .energy-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .energy-bar {
+      position: relative;
+      height: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .energy-fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #38d6ff, #7b61ff, #2ad7a6);
+      box-shadow: 0 0 18px rgba(63, 211, 255, 0.45);
+      transition: width 0.25s ease;
+    }
+
+    .tap-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .tap-btn {
+      width: 154px;
+      height: 154px;
+      border: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 25%, rgba(153, 163, 255, 0.6), rgba(85, 79, 255, 0.28) 30%, rgba(10, 16, 28, 0.96) 70%);
+      border: 2px solid rgba(123, 97, 255, 0.5);
+      box-shadow:
+        0 0 0 10px rgba(123,97,255,0.15),
+        0 18px 44px rgba(91, 120, 255, 0.35);
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.08s ease, box-shadow 0.15s ease;
+    }
+
+    .tap-btn:active {
+      transform: scale(0.97);
+    }
+
+    .tap-btn::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .tap-btn img {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      object-fit: cover;
+      position: relative;
+      z-index: 2;
+      background: rgba(255,255,255,0.05);
+      border: 3px solid rgba(255,255,255,0.2);
+      box-shadow: 0 12px 22px rgba(0,0,0,0.25);
+    }
+
+    .tap-burst {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.12), rgba(255,255,255,0));
+      animation: burst 0.35s ease-out forwards;
+    }
+
+    @keyframes burst {
+      0% { transform: scale(0.8); opacity: 0.8; }
+      100% { transform: scale(1.28); opacity: 0; }
+    }
+
+    .tap-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--mint);
+      box-shadow: 0 0 12px rgba(42, 215, 166, 0.9);
+    }
+
+    .panel {
+      margin: 16px 18px 0;
+      background: linear-gradient(180deg, rgba(17,25,39,0.96), rgba(10,17,28,0.96));
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 16px;
+      box-shadow: 0 12px 18px rgba(0,0,0,0.12);
+    }
+
+    .panel h3 {
+      margin: 0 0 14px;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .upgrade-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .upgrade-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .upgrade-left {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .upgrade-left strong {
+      font-size: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .upgrade-left small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .upgrade-btn {
+      border: 0;
+      outline: 0;
+      background: linear-gradient(135deg, rgba(123,97,255,0.14), rgba(56,214,255,0.12));
+      color: white;
+      border: 1px solid rgba(123,97,255,0.35);
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-weight: 700;
+      min-width: 110px;
+    }
+
+    .upgrade-btn:disabled {
+      opacity: 0.45;
+      filter: grayscale(0.35);
+    }
+
+    .task-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .task-btn {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(17,25,39,0.9), rgba(7,11,18,1));
+      color: var(--text);
+      border-radius: 12px;
+      text-align: left;
+      padding: 12px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 700;
+    }
+
+    .task-btn:disabled {
+      opacity: 0.6;
+      filter: grayscale(0.1);
+      cursor: not-allowed;
+    }
+
+    .task-state {
+      font-size: 11px;
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .task-btn.done .task-state {
+      background: rgba(42, 215, 166, 0.10);
+      color: var(--mint);
+    }
+
+    .ad-wrap {
+      margin: 14px 18px 0;
+      min-height: 68px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.05);
+      overflow: hidden;
+      background: rgba(255,255,255,0.02);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .boosters {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .boost-btn {
+      flex: 1;
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 14px;
+      background: linear-gradient(135deg, rgba(255,196,87,0.12), rgba(255,103,125,0.12));
+      color: var(--text);
+      font-weight: 800;
+      border: 1px solid rgba(255,206,92,0.28);
+    }
+
+    .ad-bottom {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 6px;
+      width: min(100%, 460px);
+      z-index: 5;
+      padding: 0 8px 6px;
+      pointer-events: none;
+    }
+
+    .ad-bottom .inner {
+      pointer-events: auto;
+      min-height: 62px;
+      background: rgba(10,16,28,0.9);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 420px) {
+      .wallet-card { padding: 12px 12px; }
+      .wallet-button { min-width: 120px; padding: 10px 12px; }
+      .tap-btn { width: 142px; height: 142px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="splash">
+    <div class="logo-frame">
+      <img src="logo.png" alt="MoneyPower logo" />
+    </div>
+  </div>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-mark">
+        <div class="mini-logo">
+          <img src="logo.png" alt="MoneyPower mini logo" />
+        </div>
+        <span>MoneyPower</span>
+      </div>
+
+      <div class="avatar-wrap">
+        <img id="player-avatar" src="logo.png" alt="Player avatar" />
+      </div>
+    </header>
+
+    <section class="wallet-card">
+      <div class="wallet-left">
+        <span class="wallet-label">Wallet</span>
+        <span id="wallet-status-text" class="wallet-status">Testing Access</span>
+      </div>
+      <button id="wallet-button" class="wallet-button">Connect Web3 Wallet</button>
+    </section>
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="label">Tokens</div>
+        <div class="value" id="token-value">0 <small>MP</small></div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Tap Power</div>
+        <div class="value" id="tap-power-value">10 <small>pts</small></div>
+      </div>
+      <div class="stat-card">
+        <div class="label">PPH</div>
+        <div class="value" id="pph-value">150 <small>/hr</small></div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Energy</div>
+        <div class="value" id="energy-value">500 <small> / 500</small></div>
+      </div>
+    </section>
+
+    <section class="clicker-wrap">
+      <div class="tap-panel">
+        <div class="energy-row">
+          <span>Energy</span>
+          <span id="energy-text">500 / 500</span>
+        </div>
+        <div class="energy-bar">
+          <div id="energy-fill" class="energy-fill"></div>
+        </div>
+
+        <div class="tap-area">
+          <button id="tap-btn" class="tap-btn" type="button" aria-label="Tap to earn">
+            <img src="logo.png" alt="MoneyPower logo" />
+          </button>
+
+          <div class="tap-meta">
+            <span class="dot"></span>
+            <span id="tap-status">Tap to earn</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h3>Infrastructure Upgrades</h3>
+      <div class="upgrade-list">
+        <div class="upgrade-item">
+          <div class="upgrade-left">
+            <strong>Upgrade Max Energy</strong>
+            <small>+500 cap · up to 10,500</small>
+          </div>
+          <button id="max-energy-btn" class="upgrade-btn" type="button">10,000</button>
+        </div>
+
+        <div class="upgrade-item">
+          <div class="upgrade-left">
+            <strong>Upgrade Recharge Speed</strong>
+            <small>+1.2/s · up to 19/s</small>
+          </div>
+          <button id="recharge-btn" class="upgrade-btn" type="button">2,200</button>
+        </div>
+
+        <div class="upgrade-item">
+          <div class="upgrade-left">
+            <strong>Upgrade PPH</strong>
+            <small>+150/hr each level</small>
+          </div>
+          <button id="pph-btn" class="upgrade-btn" type="button">2,500</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h3>Social Tasks</h3>
+      <div class="task-list">
+        <button class="task-btn" data-task="yt" type="button">
+          <span>YouTube Task</span>
+          <span class="task-state">Claim</span>
+        </button>
+
+        <button class="task-btn" data-task="insta" type="button">
+          <span>Instagram Task</span>
+          <span class="task-state">Claim</span>
+        </button>
+
+        <button class="task-btn" data-task="tg" type="button">
+          <span>Telegram Channel</span>
+          <span class="task-state">Claim</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h3>Boosters</h3>
+      <div class="boosters">
+        <button id="watch-ad-btn" class="boost-btn" type="button">Watch Rewarded Video Ad</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="ad-bottom">
+    <div id="adsgram-banner" class="inner">Loading ad...</div>
+  </div>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script async src="https://cdn.adsgram.com/sdk.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
