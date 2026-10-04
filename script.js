@@ -6,7 +6,7 @@ const LOGO_FALLBACK = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy5
 const state = {
   telegramId: "guest",
   playerName: "Player",
-  displayName: "Player1234",
+  displayName: "Player",
   avatarUrl: "",
   username: "",
   tokens: 0,
@@ -87,7 +87,7 @@ function hydrateTelegramProfile() {
 
   const firstName = user.first_name || "Player";
   const lastName = user.last_name || "";
-  const username = user.username || "";
+  const username = (user.username || "").replace(/^@/, "").trim();
   const telegramId = String(user.id || `guest-${Date.now()}`);
   const avatarUrl = user.photo_url || "";
 
@@ -95,9 +95,8 @@ function hydrateTelegramProfile() {
   state.playerName = firstName;
   state.username = username;
 
-  let baseName = username ? username : `${firstName}${lastName}`;
-  if (!baseName) baseName = "Player";
-  state.displayName = `${baseName}1234`;
+  let baseName = username || `${firstName}${lastName}`.trim() || "Player";
+  state.displayName = baseName;
   state.avatarUrl = avatarUrl || "";
 
   if (tg) {
