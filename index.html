@@ -146,6 +146,39 @@
       object-fit: cover;
     }
 
+    .top-nav {
+      display: flex;
+      gap: 8px;
+      padding: 12px 18px 0;
+      border-bottom: 1px solid var(--line);
+      justify-content: flex-start;
+      overflow-x: auto;
+    }
+
+    .nav-btn {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 10px 12px;
+      border-bottom: 3px solid transparent;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .nav-btn.active {
+      color: var(--text);
+      border-bottom-color: var(--brand-2);
+    }
+
+    .nav-btn:hover {
+      color: var(--text);
+    }
+
     .wallet-card {
       margin: 12px 18px 14px;
       background: linear-gradient(180deg, rgba(18, 29, 48, 0.95), rgba(11, 18, 31, 0.95));
@@ -187,6 +220,7 @@
       letter-spacing: 0.01em;
       min-width: 145px;
       box-shadow: 0 10px 26px rgba(82, 118, 255, 0.35);
+      cursor: pointer;
     }
 
     .stats-grid {
@@ -224,6 +258,14 @@
       font-size: 12px;
       color: var(--muted);
       font-weight: 700;
+    }
+
+    .content-view {
+      display: none;
+    }
+
+    .content-view.active {
+      display: block;
     }
 
     .clicker-wrap {
@@ -292,6 +334,7 @@
       position: relative;
       overflow: hidden;
       transition: transform 0.08s ease, box-shadow 0.15s ease;
+      cursor: pointer;
     }
 
     .tap-btn:active {
@@ -413,6 +456,7 @@
       padding: 8px 12px;
       font-weight: 700;
       min-width: 110px;
+      cursor: pointer;
     }
 
     .upgrade-btn:disabled {
@@ -437,6 +481,7 @@
       align-items: center;
       justify-content: space-between;
       font-weight: 700;
+      cursor: pointer;
     }
 
     .task-btn:disabled {
@@ -494,6 +539,7 @@
       color: var(--text);
       font-weight: 800;
       border: 1px solid rgba(255,206,92,0.28);
+      cursor: pointer;
     }
 
     .ad-bottom {
@@ -521,6 +567,126 @@
       font-size: 11px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
+    }
+
+    .faq-section {
+      padding: 0 18px 20px;
+    }
+
+    .faq-item {
+      background: rgba(17, 25, 39, 0.9);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 14px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .faq-header {
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      color: var(--text);
+      user-select: none;
+    }
+
+    .faq-header:hover {
+      background: rgba(123, 97, 255, 0.1);
+    }
+
+    .faq-icon {
+      font-size: 16px;
+      transition: transform 0.2s ease;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-item.open .faq-body {
+      max-height: 500px;
+    }
+
+    .faq-content {
+      padding: 12px 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .roadmap-section {
+      padding: 0 18px 20px;
+    }
+
+    .roadmap-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+
+    .roadmap-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--brand);
+      box-shadow: 0 0 10px rgba(123, 97, 255, 0.6);
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+
+    .roadmap-content {
+      flex: 1;
+    }
+
+    .roadmap-content h4 {
+      margin: 0 0 4px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .roadmap-content p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .lang-selector {
+      display: flex;
+      gap: 8px;
+      padding: 12px 18px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .lang-btn {
+      border: 1px solid rgba(255,255,255,0.1);
+      background: transparent;
+      color: var(--muted);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lang-btn.active {
+      background: var(--brand);
+      color: white;
+      border-color: var(--brand);
     }
 
     @media (max-width: 420px) {
@@ -552,111 +718,273 @@
       </div>
     </header>
 
-    <section class="wallet-card">
-      <div class="wallet-left">
-        <span class="wallet-label">Wallet</span>
-        <span id="wallet-status-text" class="wallet-status">Testing Access</span>
-      </div>
-      <button id="wallet-button" class="wallet-button">Connect Web3 Wallet</button>
-    </section>
+    <div class="lang-selector" id="lang-selector">
+      <button class="lang-btn active" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="hi">हिंदी</button>
+      <button class="lang-btn" data-lang="ur">اردو</button>
+      <button class="lang-btn" data-lang="es">Español</button>
+      <button class="lang-btn" data-lang="fr">Français</button>
+      <button class="lang-btn" data-lang="de">Deutsch</button>
+      <button class="lang-btn" data-lang="ja">日本語</button>
+      <button class="lang-btn" data-lang="zh">中文</button>
+      <button class="lang-btn" data-lang="ru">Русский</button>
+      <button class="lang-btn" data-lang="pt">Português</button>
+      <button class="lang-btn" data-lang="ar">العربية</button>
+      <button class="lang-btn" data-lang="ko">한국어</button>
+    </div>
 
-    <section class="stats-grid">
-      <div class="stat-card">
-        <div class="label">Tokens</div>
-        <div class="value" id="token-value">0 <small>MP</small></div>
-      </div>
-      <div class="stat-card">
-        <div class="label">Tap Power</div>
-        <div class="value" id="tap-power-value">10 <small>pts</small></div>
-      </div>
-      <div class="stat-card">
-        <div class="label">PPH</div>
-        <div class="value" id="pph-value">150 <small>/hr</small></div>
-      </div>
-      <div class="stat-card">
-        <div class="label">Energy</div>
-        <div class="value" id="energy-value">500 <small> / 500</small></div>
-      </div>
-    </section>
+    <nav class="top-nav">
+      <button class="nav-btn active" data-view="play">Play</button>
+      <button class="nav-btn" data-view="roadmap">Roadmap</button>
+      <button class="nav-btn" data-view="faq">FAQ</button>
+    </nav>
 
-    <section class="clicker-wrap">
-      <div class="tap-panel">
-        <div class="energy-row">
-          <span>Energy</span>
-          <span id="energy-text">500 / 500</span>
+    <!-- PLAY VIEW -->
+    <div id="play-view" class="content-view active">
+      <section class="wallet-card">
+        <div class="wallet-left">
+          <span class="wallet-label" data-key="wallet">Wallet</span>
+          <span id="wallet-status-text" class="wallet-status">Testing Access</span>
         </div>
-        <div class="energy-bar">
-          <div id="energy-fill" class="energy-fill"></div>
-        </div>
+        <button id="wallet-button" class="wallet-button" data-key="connect-wallet">Connect Web3 Wallet</button>
+      </section>
 
-        <div class="tap-area">
-          <button id="tap-btn" class="tap-btn" type="button" aria-label="Tap to earn">
-            <img src="logo.png" alt="MoneyPower logo" />
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div class="label" data-key="tokens">Tokens</div>
+          <div class="value" id="token-value">0 <small>MP</small></div>
+        </div>
+        <div class="stat-card">
+          <div class="label" data-key="tap-power">Tap Power</div>
+          <div class="value" id="tap-power-value">10 <small>pts</small></div>
+        </div>
+        <div class="stat-card">
+          <div class="label" data-key="pph">PPH</div>
+          <div class="value" id="pph-value">150 <small>/hr</small></div>
+        </div>
+        <div class="stat-card">
+          <div class="label" data-key="energy">Energy</div>
+          <div class="value" id="energy-value">500 <small> / 500</small></div>
+        </div>
+      </section>
+
+      <section class="clicker-wrap">
+        <div class="tap-panel">
+          <div class="energy-row">
+            <span data-key="energy">Energy</span>
+            <span id="energy-text">500 / 500</span>
+          </div>
+          <div class="energy-bar">
+            <div id="energy-fill" class="energy-fill"></div>
+          </div>
+
+          <div class="tap-area">
+            <button id="tap-btn" class="tap-btn" type="button" aria-label="Tap to earn">
+              <img src="logo.png" alt="MoneyPower logo" />
+            </button>
+
+            <div class="tap-meta">
+              <span class="dot"></span>
+              <span id="tap-status" data-key="tap-to-earn">Tap to earn</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h3 data-key="infrastructure">Infrastructure Upgrades</h3>
+        <div class="upgrade-list">
+          <div class="upgrade-item">
+            <div class="upgrade-left">
+              <strong data-key="upgrade-max-energy">Upgrade Max Energy</strong>
+              <small data-key="upgrade-max-energy-desc">+500 cap · up to 10,500</small>
+            </div>
+            <button id="max-energy-btn" class="upgrade-btn" type="button">10,000</button>
+          </div>
+
+          <div class="upgrade-item">
+            <div class="upgrade-left">
+              <strong data-key="upgrade-recharge">Upgrade Recharge Speed</strong>
+              <small data-key="upgrade-recharge-desc">+1.2/s · up to 19/s</small>
+            </div>
+            <button id="recharge-btn" class="upgrade-btn" type="button">2,200</button>
+          </div>
+
+          <div class="upgrade-item">
+            <div class="upgrade-left">
+              <strong data-key="upgrade-pph">Upgrade PPH</strong>
+              <small data-key="upgrade-pph-desc">+150/hr each level</small>
+            </div>
+            <button id="pph-btn" class="upgrade-btn" type="button">2,500</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h3 data-key="social-tasks">Social Tasks</h3>
+        <div class="task-list">
+          <button class="task-btn" data-task="yt" type="button">
+            <span data-key="task-yt">YouTube Task</span>
+            <span class="task-state" data-key="claim">Claim</span>
           </button>
 
-          <div class="tap-meta">
-            <span class="dot"></span>
-            <span id="tap-status">Tap to earn</span>
+          <button class="task-btn" data-task="insta" type="button">
+            <span data-key="task-insta">Instagram Task</span>
+            <span class="task-state" data-key="claim">Claim</span>
+          </button>
+
+          <button class="task-btn" data-task="tg" type="button">
+            <span data-key="task-tg">Telegram Channel</span>
+            <span class="task-state" data-key="claim">Claim</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h3 data-key="boosters">Boosters</h3>
+        <div class="boosters">
+          <button id="watch-ad-btn" class="boost-btn" type="button" data-key="watch-ad">Watch Rewarded Video Ad</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- ROADMAP VIEW -->
+    <div id="roadmap-view" class="content-view roadmap-section">
+      <div class="panel" style="margin-top: 12px;">
+        <h3 data-key="product-roadmap">Product Roadmap</h3>
+
+        <div class="roadmap-item">
+          <div class="roadmap-dot"></div>
+          <div class="roadmap-content">
+            <h4 data-key="q1-2024">Q1 2024 - Core Launch</h4>
+            <p data-key="q1-2024-desc">Tap-to-earn engine, energy system, offline mining</p>
+          </div>
+        </div>
+
+        <div class="roadmap-item">
+          <div class="roadmap-dot"></div>
+          <div class="roadmap-content">
+            <h4 data-key="q2-2024">Q2 2024 - Upgrades & Tasks</h4>
+            <p data-key="q2-2024-desc">Infrastructure upgrades, social task verification, Adsgram ads</p>
+          </div>
+        </div>
+
+        <div class="roadmap-item">
+          <div class="roadmap-dot"></div>
+          <div class="roadmap-content">
+            <h4 data-key="q3-2024">Q3 2024 - Web3 Wallet</h4>
+            <p data-key="q3-2024-desc">MetaMask integration, token bridge, staking rewards</p>
+          </div>
+        </div>
+
+        <div class="roadmap-item">
+          <div class="roadmap-dot"></div>
+          <div class="roadmap-content">
+            <h4 data-key="q4-2024">Q4 2024 - Leaderboards</h4>
+            <p data-key="q4-2024-desc">Global rankings, referral system, seasonal events</p>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <section class="panel">
-      <h3>Infrastructure Upgrades</h3>
-      <div class="upgrade-list">
-        <div class="upgrade-item">
-          <div class="upgrade-left">
-            <strong>Upgrade Max Energy</strong>
-            <small>+500 cap · up to 10,500</small>
-          </div>
-          <button id="max-energy-btn" class="upgrade-btn" type="button">10,000</button>
+    <!-- FAQ VIEW -->
+    <div id="faq-view" class="content-view faq-section">
+      <div class="faq-item">
+        <div class="faq-header">
+          <span data-key="faq-q1">What is MoneyPower?</span>
+          <span class="faq-icon">⌄</span>
         </div>
-
-        <div class="upgrade-item">
-          <div class="upgrade-left">
-            <strong>Upgrade Recharge Speed</strong>
-            <small>+1.2/s · up to 19/s</small>
+        <div class="faq-body">
+          <div class="faq-content" data-key="faq-q1-ans">
+            MoneyPower is a Web3 Telegram Mini App where you tap to earn tokens, upgrade your power, and connect your wallet for decentralized rewards.
           </div>
-          <button id="recharge-btn" class="upgrade-btn" type="button">2,200</button>
-        </div>
-
-        <div class="upgrade-item">
-          <div class="upgrade-left">
-            <strong>Upgrade PPH</strong>
-            <small>+150/hr each level</small>
-          </div>
-          <button id="pph-btn" class="upgrade-btn" type="button">2,500</button>
         </div>
       </div>
-    </section>
 
-    <section class="panel">
-      <h3>Social Tasks</h3>
-      <div class="task-list">
-        <button class="task-btn" data-task="yt" type="button">
-          <span>YouTube Task</span>
-          <span class="task-state">Claim</span>
-        </button>
-
-        <button class="task-btn" data-task="insta" type="button">
-          <span>Instagram Task</span>
-          <span class="task-state">Claim</span>
-        </button>
-
-        <button class="task-btn" data-task="tg" type="button">
-          <span>Telegram Channel</span>
-          <span class="task-state">Claim</span>
-        </button>
+      <div class="faq-item">
+        <div class="faq-header">
+          <span data-key="faq-q2">How do I earn tokens?</span>
+          <span class="faq-icon">⌄</span>
+        </div>
+        <div class="faq-body">
+          <div class="faq-content" data-key="faq-q2-ans">
+            Tap the center button to earn tokens based on your tap power. Complete energy and tap power to maximize rewards. Offline mining also earns you up to 3 hours of PPH earnings.
+          </div>
+        </div>
       </div>
-    </section>
 
-    <section class="panel">
-      <h3>Boosters</h3>
-      <div class="boosters">
-        <button id="watch-ad-btn" class="boost-btn" type="button">Watch Rewarded Video Ad</button>
+      <div class="faq-item">
+        <div class="faq-header">
+          <span data-key="faq-q3">What are upgrades?</span>
+          <span class="faq-icon">⌄</span>
+        </div>
+        <div class="faq-body">
+          <div class="faq-content" data-key="faq-q3-ans">
+            Upgrades increase your max energy, recharge speed, or profit-per-hour. Each upgrade costs tokens and gets progressively more expensive as you level up.
+          </div>
+        </div>
       </div>
-    </section>
+
+      <div class="faq-item">
+        <div class="faq-header">
+          <span data-key="faq-q4">When can I connect my wallet?</span>
+          <span class="faq-icon">⌄</span>
+        </div>
+        <div class="faq-body">
+          <div class="faq-content" data-key="faq-q4-ans">
+            Wallet connection is locked for the first 3 days (testing phase), locked from day 4 to 161, and globally unlocked on day 162 onwards for all players.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-header">
+          <span data-key="faq-q5">Can I earn while offline?</span>
+          <span class="faq-icon">⌄</span>
+        </div>
+        <div class="faq-body">
+          <div class="faq-content" data-key="faq-q5-ans">
+            Yes! Your profit-per-hour earns for you up to 3 hours while you're offline. Return to the app anytime to claim your earnings.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-header">
+          <span data-key="faq-q6">What are social tasks?</span>
+          <span class="faq-icon">⌄</span>
+        </div>
+        <div class="faq-body">
+          <div class="faq-content" data-key="faq-q6-ans">
+            Complete social tasks (YouTube, Instagram, Telegram) to earn bonus tokens. Click to open the link, wait 3 seconds, and the reward is credited to your account.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-header">
+          <span data-key="faq-q7">How do rewarded ads work?</span>
+          <span class="faq-icon">⌄</span>
+        </div>
+        <div class="faq-body">
+          <div class="faq-content" data-key="faq-q7-ans">
+            Watch a rewarded video ad to instantly gain +3 tap power permanently. This bonus stacks with your base tap power for increased earnings.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-header">
+          <span data-key="faq-q8">Is my data safe?</span>
+          <span class="faq-icon">⌄</span>
+        </div>
+        <div class="faq-body">
+          <div class="faq-content" data-key="faq-q8-ans">
+            All player data is stored securely in Supabase with automatic backups. Your Telegram ID is the unique identifier and your wallet address is optional.
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="ad-bottom">
