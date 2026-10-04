@@ -8,6 +8,7 @@ const state = {
   playerName: "Player",
   displayName: "Player1234",
   avatarUrl: "",
+  username: "",
   tokens: 0,
   tapPower: 10,
   tapPowerBonus: 0,
@@ -86,12 +87,17 @@ function hydrateTelegramProfile() {
 
   const firstName = user.first_name || "Player";
   const lastName = user.last_name || "";
+  const username = user.username || "";
   const telegramId = String(user.id || `guest-${Date.now()}`);
   const avatarUrl = user.photo_url || "";
 
   state.telegramId = telegramId;
   state.playerName = firstName;
-  state.displayName = `${firstName}${lastName}1234`;
+  state.username = username;
+
+  let baseName = username ? username : `${firstName}${lastName}`;
+  if (!baseName) baseName = "Player";
+  state.displayName = `${baseName}1234`;
   state.avatarUrl = avatarUrl || "";
 
   if (tg) {
